@@ -31,13 +31,14 @@ async def delete_user(name: str):
     }
     
 
-@app.post("/update/{name}")
-async def update_fun(name:str,is_active:bool):
-     result = await users.update_many(
+@app.put("/update/{old_name}")
+async def update_fun(name: str, new_name: str, is_active: bool):
+    result = await users.update_many(
         {"name": name},
-        {"$set": {"is_active": is_active}}
-     )
-     return {
+        {"$set": {"name": new_name, "is_active": is_active}}
+    )
+    return {
         "message": "User updated",
         "matched": result.matched_count
-     }
+    }
+
